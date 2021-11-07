@@ -73,41 +73,60 @@ const system = {
 
 const loader = new GLTFLoader();
 
-class Planet extends Group{
+
+
+class Star extends Group{
     constructor(name){
         super();
-        this.init(name);  
-    }
-
-    async init(name){
-        this.mesh = await this.setupModel(name);
-        let size = system[name]["size"];
-        let x = system[name]["posX"];
-        let z = system[name]["posZ"];
-        this.rotationSpeed = system[name]["rotation"];
-        this.mesh.scale.set(size, size, size);
-        this.setPosition(x,0,z);
-
-        this.add(this.mesh);
+        this.name = name;
+        this.init(name);
     }
 
     async setupModel(name){
-        const [data1,data2] = await Promise.all([
-            loader.loadAsync(system[name]["model"]),
-            loader.loadAsync(system[name]["model"]),
+        const [object] = await Promise.all([
+            loader.loadAsync(system[name]["model"])
         ]);
-        const mesh = data1.scene.children[0];
-        return mesh
+        return object.scene;
+    }
+
+    async init(name){
+        let model = this.setupModel(name);
+        model.then((result)=> {
+            this.add(result)
+        });
+        this.rotationSpeed = system[name]["rotation"];
+        let size = system[name]["size"];
+        let x = system[name]["posX"];
+        let z = system[name]["posZ"];
+        this.scale.set(size,size,size);
+        this.setPosition(x,0,z);
     }
 
     setPosition(x,y,z){
-        this.mesh.position.set(x*2,y,z*2);
+        this.position.set(x*2,y,z*2);
     }
     
 
     tick(delta){
-        this.mesh.rotation.y += this.rotationSpeed * delta;
+        this.rotation.y += this.rotationSpeed * delta;
     }
 }
 
-export {Planet};
+class Planet extends Star{
+    constructor(name){
+        super(name);
+        this.rayon = system[name]["posX"];
+        this.angle = 0;
+    }
+
+    tick(delta){
+        this.rotation.y += this.rotationSpeed * delta;
+        this.position.x = this.rayon * Math.cos(this.angle * Math.PI / 180);
+        this.position.z = this.rayon * Math.sin(this.angle * Math.PI / 180);
+        this.angle++;
+        if(this.angle > 360){
+            this.angle = 0;
+        }
+    }
+}
+export {Star, Planet};

@@ -7,4 +7,4 @@ async function main() {
     world.start();
 }
 
-main();
+await main();

@@ -4,7 +4,7 @@ import { Clock } from "../../../vendor/three/build/three.module.js";
 
 import { Resizer } from "./systems/Resizer.js";
 import { createCube } from "./components/cube.js";
-import { Planet } from "./components/Planet.js";
+import { Star, Planet } from "./components/Planet.js";
 
 let camera;
 let renderer;
@@ -50,7 +50,7 @@ class World{
     }
 
     async init(){
-        let a = new Planet("Sun");
+        let a = new Star("Sun");
         let b = new Planet("Mercure");
         let c = new Planet("Venus");
         let d = new Planet("Earth");
@@ -59,7 +59,7 @@ class World{
         let g = new Planet("Saturne");
         let h = new Planet("Uranus");
         let i = new Planet("Neptune");
-
+    
         this.canIntersected.push(a,b,c,d,e,f,g,h,i);
         this.updatableObject.push(a,b,c,d,e,f,g,h,i);
         controls.target.copy(a.position);
@@ -115,7 +115,7 @@ class World{
 
     onClick(event){
         if(this.over){
-            controls.target.copy(this.intersected.position);
+            controls.target.copy(this.intersected.parent.parent.position);
             controls.update();
         }
     }
