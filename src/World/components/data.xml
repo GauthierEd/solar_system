@@ -1,0 +1,8 @@
+<planetes>
+    <planete>
+        <name>Soleil</name>
+        <object>../../../asset/modeles/sun.glb</object>
+        <diametre>1392700</diametre>
+        <distance>6470000</distance>
+    </planete>
+</planetes>
