@@ -60,11 +60,29 @@ class World{
         let h = new Planet("Uranus");
         let i = new Planet("Neptune");
     
+        let planet = [b,c,d,e,f,g,h,i];
+        
         this.canIntersected.push(a,b,c,d,e,f,g,h,i);
         this.updatableObject.push(a,b,c,d,e,f,g,h,i);
         controls.target.copy(a.position);
         controls.update();
         scene.add(a,b,c,d,e,f,g,h,i);
+
+        for(let i=0; i < 8; i++){
+            let rayon = planet[i].rayon;
+            var points = [];
+            for(let i = 0; i <= 360; i++){
+                points.push(new THREE.Vector3(Math.cos(i*(Math.PI/180))* rayon, 0, Math.sin(i*(Math.PI/180))* rayon));
+            }
+            var geometry = new THREE.BufferGeometry().setFromPoints(points);
+            var material = new THREE.LineBasicMaterial({ 
+                color: 0xFFFFFF,
+                transparent: true,
+                opacity: 0.2
+            });
+            let line = new THREE.Line( geometry, material );
+            scene.add(line);
+        }
     }
 
     render(){
