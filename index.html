@@ -8,8 +8,63 @@
 
     <link href="./styles/main.css" rel="stylesheet" type="text/css">
     <script type="module" src="./src/main.js"></script>
+    <script src="https://kit.fontawesome.com/bb1b4417fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="scene-container"></div>
+    <div class="container">
+        <header class="overlay_button">
+            <ul>
+                <li><button type="button" class="button play"><i class="fas fa-play"></i></button></li>
+                <li><button type="button" class="button pause"><i class="fas fa-pause"></i></button></li>
+                <li><button type="button" class="button"> x 1 </button></li>
+                <li><button type="button" class="button"> x 2 </button></li>
+                <li><button type="button" class="button"> x 4 </button></li>
+            </ul>   
+        </header>
+        <aside class="overlay_info">
+            <ul class="planet_info">
+                <li class="planet " id="Sun">
+                    <h2>Sun</h2>
+                    <img src="asset/images/sun.jpg">
+                </li>
+                <li class="planet " id="Mercure">
+                    <h2>Mercure</h2>
+                    <img src="asset/images/mercure.jpg">
+                </li>
+                <li class="planet" id="Venus">
+                    <h2>Venus</h2>
+                    <img src="asset/images/venus.jpg">
+                </li>
+                <li class="planet" id="Earth">
+                    <h2>Terre</h2>
+                    <img src="asset/images/terre.png">
+                </li>
+                <li class="planet" id="Mars">
+                    <h2>Mars</h2>
+                    <img src="asset/images/mars.jpg">
+                </li>
+                <li class="planet" id="Jupiter">
+                    <h2>Jupiter</h2>
+                    <img src="asset/images/jupiter.jpg">
+                </li>
+                <li class="planet" id="Saturne">
+                    <h2>Saturne</h2>
+                    <img src="asset/images/saturne.jpg">
+                </li>
+                <li class="planet" id="Uranus">
+                    <h2>Uranus</h2>
+                    <img src="asset/images/uranus.jpg">
+                </li>
+                <li class="planet" id="Neptune">
+                    <h2>Neptune</h2>
+                    <img src="asset/images/Neptune.jpg">
+                </li>
+            </ul>
+        </aside>
+        <div id="scene-container"></div>
+        <footer class="footer">
+            <p>Footer</p>
+        </footer>
+    </div>
 </body>
 </html>

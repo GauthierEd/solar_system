@@ -16,7 +16,9 @@ let raycaster = new THREE.Raycaster();
 
 class World{
     constructor(container){
-        
+        this.multipleSpeed = 1;
+        this.lastSpeed = 1;
+        this.pause = false;
         this.over = false;
         this.intersected = null;
         this.canIntersected = [];
@@ -44,9 +46,36 @@ class World{
         scene.add(mainLight,ambientLight);
 
        
-
+        
         document.addEventListener('mousemove', this.onPointerMove.bind(this));
         document.addEventListener('click', this.onClick.bind(this));
+        
+    }
+
+    setMultipleSpeed(speed) {
+        if(speed == 0){
+            if(!this.pause){
+                this.lastSpeed = this.multipleSpeed;
+                this.multipleSpeed = speed;
+            }
+            this.pause = true;
+        }else {
+            if(this.pause){
+                this.lastSpeed = speed;
+            }else{
+                this.lastSpeed = this.multipleSpeed;
+                this.multipleSpeed = speed;
+            }
+        }
+    }
+
+    resetSpeed(){
+        this.pause = false;
+        this.multipleSpeed = this.lastSpeed;
+    }
+
+    setWindow(window){
+        this.window = window;
     }
 
     async init(){
@@ -114,11 +143,10 @@ class World{
     
 
     tick() {
-        const delta = clock.getDelta();
+        const delta = clock.getDelta() * this.multipleSpeed;
         for(let i=0; i < this.updatableObject.length; i++){
             this.updatableObject[i].tick(delta);
         }
-        
     }
 
     start() {
@@ -135,12 +163,23 @@ class World{
         if(this.over){
             controls.target.copy(this.intersected.parent.parent.position);
             controls.update();
+            let divPlanets = document.querySelectorAll(".planet");
+            for(let i=0; i < divPlanets.length; i++){
+                divPlanets[i].classList.remove("display");
+            }
+            let divPlanet = document.querySelector("#"+this.intersected.parent.parent.name);
+            divPlanet.classList.add("display");
         }
+        
     }
 
     onPointerMove(event){
-        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        let canvas = event.target.getBoundingClientRect();
+        let mouseX = event.clientX - event.target.offsetLeft;
+        let mouseY = event.clientY - event.target.offsetTop;
+        this.pointer.x = (mouseX / canvas.width) * 2 - 1;
+        this.pointer.y = -(mouseY / canvas.height) * 2 + 1;
+        
     }
 }
 
